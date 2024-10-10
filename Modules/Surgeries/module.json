@@ -1,0 +1,11 @@
+{
+    "name": "Surgeries",
+    "alias": "surgeries",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Surgeries\\Providers\\SurgeriesServiceProvider"
+    ],
+    "files": []
+}

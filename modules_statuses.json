@@ -1,0 +1,10 @@
+{
+    "Users": true,
+    "Departments": true,
+    "Appointments": true,
+    "Records": true,
+    "Billing": true,
+    "Surgeries": true,
+    "Services": true,
+    "Shifts": true
+}
