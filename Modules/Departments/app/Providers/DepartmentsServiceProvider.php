@@ -34,6 +34,13 @@ class DepartmentsServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        // Register DepartmentService in the container
+        $this->app->bind('DepartmentService', function ($app) {
+            return new \Modules\Departments\Services\DepartmentService();
+        });
+        $this->app->bind('RoomService', function ($app) {
+            return new \Modules\Departments\Services\RoomService();
+        });
     }
 
     /**

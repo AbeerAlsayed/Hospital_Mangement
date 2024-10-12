@@ -14,6 +14,4 @@ use Modules\Users\Http\Controllers\UsersController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('users', UsersController::class)->names('users');
-});
+Route::apiResource('users', UsersController::class);

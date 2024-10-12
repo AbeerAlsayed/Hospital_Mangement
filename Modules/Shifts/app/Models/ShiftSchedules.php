@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Modules\Shifts\Database\Factories\ShiftSchedulesFactory;
 
-class Shift_Schedules extends Model
+class ShiftSchedules extends Model
 {
     use HasFactory;
 

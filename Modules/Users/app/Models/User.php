@@ -4,19 +4,13 @@ namespace Modules\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Users\Database\Factories\UserFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Users\Database\Factories\UserFactory;
 
-class User extends Model
+class User extends \App\Models\User
 {
-    use HasFactory;
-
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [];
-
-    // protected static function newFactory(): UserFactory
-    // {
-    //     // return UserFactory::new();
-    // }
+    protected static function newFactory()
+    {
+        return UserFactory::new();
+    }
 }
