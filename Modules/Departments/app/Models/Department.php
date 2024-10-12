@@ -2,9 +2,6 @@
 
 namespace Modules\Departments\Models;
 
-
-namespace Modules\Departments\Models;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Departments\Database\Factories\DepartmentFactory;
