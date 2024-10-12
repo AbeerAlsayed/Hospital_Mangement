@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            // $table->foreignId('head_doctor_id')->constrained('doctors');
-            $table->timestamps();
+        Schema::table('departments', function (Blueprint $table) {
+            $table->unsignedBigInteger('head_doctor_id')->nullable()->after('name');
+            $table->foreign('head_doctor_id')->references('id')->on('doctors')->onDelete('set null');
         });
-    }
 
-    /**
+    }
+        /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::table('departments', function (Blueprint $table) {
+
+        });
     }
 };
