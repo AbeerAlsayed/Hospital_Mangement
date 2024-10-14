@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Modules\Records\Database\Factories\PatientMovementFactory;
 
-class Patient_Movement extends Model
+class PatientMovement extends Model
 {
     use HasFactory;
 

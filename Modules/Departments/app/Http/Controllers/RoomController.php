@@ -18,9 +18,11 @@ class RoomController extends Controller
         $this->roomService = $roomService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return RoomResource::collection(Room::with('department')->get());
+        $perPage = $request->query('per_page', 5);
+        $rooms = Room::paginate($perPage);
+        return RoomResource::collection($rooms);
     }
 
     public function store(RoomRequest $request)
