@@ -2,64 +2,49 @@
 
 namespace Modules\Departments\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Departments\Services\DepartmentService;
+use Modules\Departments\Http\Requests\DepartmentRequest;
+use Modules\Departments\Models\Department;
+use Modules\Departments\Transformers\DepartmentResource;
+use Nwidart\Modules\Routing\Controller;
 
 class DepartmentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $departmentService;
+
+    public function __construct(DepartmentService $departmentService)
     {
-        return view('departments::index');
+        $this->departmentService = $departmentService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(Request $request)
     {
-        return view('departments::create');
+        $departments = Department::with(['doctors', 'nurses', 'rooms'])->paginate(10);
+        return DepartmentResource::collection($departments);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(DepartmentRequest $request)
     {
-        //
+        $department = $this->departmentService->create($request->validated());
+        return new DepartmentResource($department);
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(Department $department)
     {
-        return view('departments::show');
+        return new DepartmentResource($department->load(['doctors', 'nurses', 'rooms']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function update(DepartmentRequest $request, Department $department)
     {
-        return view('departments::edit');
+        $department = $this->departmentService->update($department, $request->validated());
+        return new DepartmentResource($department);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function destroy(Department $department)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        $this->departmentService->delete($department);
+        return response()->noContent();
     }
 }

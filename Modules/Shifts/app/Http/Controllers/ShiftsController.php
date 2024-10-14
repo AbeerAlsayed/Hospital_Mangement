@@ -2,64 +2,34 @@
 
 namespace Modules\Shifts\Http\Controllers;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Departments\Models\Department;
+use Modules\Shifts\Models\ShiftSchedules;
 
 class ShiftsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('shifts::index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('shifts::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(ShiftSchedules $shiftSchedules)
     {
-        return view('shifts::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function update(Request $request, ShiftSchedules $shiftSchedules)
     {
-        return view('shifts::edit');
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function destroy(ShiftSchedules $shiftSchedules)
     {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

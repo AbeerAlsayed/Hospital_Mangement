@@ -1,26 +1,20 @@
 <?php
 
-namespace Modules\Users\Http\Controllers;
+namespace Modules\Appointments\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class AppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('users::index');
-    }
+        //
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('users::create');
+        return response()->json([]);
     }
 
     /**
@@ -29,6 +23,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //
+
+        return response()->json([]);
     }
 
     /**
@@ -36,15 +32,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return view('users::show');
-    }
+        //
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('users::edit');
+        return response()->json([]);
     }
 
     /**
@@ -53,6 +43,8 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        return response()->json([]);
     }
 
     /**
@@ -61,5 +53,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+
+        return response()->json([]);
     }
 }

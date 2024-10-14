@@ -34,6 +34,15 @@ class UsersServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('UserService', function ($app) {
+            return new \Modules\Users\Services\UserService();});
+        $this->app->bind('DoctorService', function ($app) {
+        return new \Modules\Users\Services\DoctorService();});
+        $this->app->bind('NurseService', function ($app) {
+        return new \Modules\Users\Services\NurseService();});
+        $this->app->bind('PatientService', function ($app) {
+            return new \Modules\Users\Services\PatientService();
+        });
     }
 
     /**

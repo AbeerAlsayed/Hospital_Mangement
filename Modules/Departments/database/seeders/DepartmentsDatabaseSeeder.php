@@ -1,8 +1,13 @@
 <?php
 
-namespace Modules\Departments\Database\Seeders;
 
+
+namespace Modules\Departments\Database\Seeders;
 use Illuminate\Database\Seeder;
+use Modules\Departments\Database\Factories\DepartmentFactory; // تأكد من استخدام الـ namespace الكامل
+use Modules\Departments\Models\Department;
+use Modules\Departments\Database\Factories\RoomFactory;
+use Modules\Departments\Models\Room;
 
 class DepartmentsDatabaseSeeder extends Seeder
 {
@@ -11,6 +16,8 @@ class DepartmentsDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        Department::factory()->count(5)->create();
+
+        Room::factory()->count(10)->create();
     }
 }
