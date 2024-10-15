@@ -4,56 +4,47 @@ namespace Modules\Records\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Records\Services\MedicalRecordService;
+use Modules\Records\Http\Requests\StoreMedicalRecordRequest;
+use Modules\Records\Transformers\MedicalRecordResource;
+use App\Services\ApiResponseService;
 
 class MedicalRecordController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    protected $service;
 
-        return response()->json([]);
+    public function __construct(MedicalRecordService $service)
+    {
+        $this->service = $service;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        //
-
-        return response()->json([]);
+        $records = $this->service->getAllPaginated($request->get('per_page', 10));
+        return ApiResponseService::paginated($records, 'Medical records fetched successfully');
     }
 
-    /**
-     * Show the specified resource.
-     */
+    public function store(StoreMedicalRecordRequest $request)
+    {
+        $record = $this->service->create($request->validated());
+        return ApiResponseService::success(new MedicalRecordResource($record), 'Medical record created successfully');
+    }
+
     public function show($id)
     {
-        //
-
-        return response()->json([]);
+        $record = $this->service->getById($id);
+        return ApiResponseService::success(new MedicalRecordResource($record), 'Medical record retrieved successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(StoreMedicalRecordRequest $request, $id)
     {
-        //
-
-        return response()->json([]);
+        $record = $this->service->update($request->validated(), $id);
+        return ApiResponseService::success(new MedicalRecordResource($record), 'Medical record updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
-
-        return response()->json([]);
+        $this->service->delete($id);
+        return ApiResponseService::success(null, 'Medical record deleted successfully');
     }
 }

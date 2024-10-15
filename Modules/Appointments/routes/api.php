@@ -13,7 +13,12 @@ use Modules\Appointments\Http\Controllers\AppointmentsController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
+use Modules\Appointments\Http\Controllers\AppointmentController;
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('appointments', AppointmentsController::class)->names('appointments');
+Route::prefix('appointments')->group(function () {
+    Route::get('/', [AppointmentController::class, 'index']);
+    Route::post('/', [AppointmentController::class, 'store']);
+    Route::get('/{id}', [AppointmentController::class, 'show']);
+    Route::put('/{id}', [AppointmentController::class, 'update']);
+    Route::delete('/{id}', [AppointmentController::class, 'destroy']);
 });

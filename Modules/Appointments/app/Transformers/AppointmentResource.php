@@ -1,17 +1,20 @@
 <?php
-
 namespace Modules\Appointments\Transformers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppointmentResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     */
-    public function toArray(Request $request): array
+    public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'appointment_date' => $this->appointment_date,
+            'time' => $this->time,
+            'status' => $this->status,
+            'patient' => new PatientResource($this->patient), // Assuming PatientResource exists
+            'doctor' => new DoctorResource($this->doctor), // Assuming DoctorResource exists
+        ];
     }
 }
+

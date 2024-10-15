@@ -1,26 +1,30 @@
 <?php
-
 namespace Modules\Surgeries\Http\Requests;
 
+use App\Services\ApiResponseService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreSurgeryRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     */
-    public function rules(): array
-    {
+    public function authorize(): bool {
+        return true;
+    }
+
+    public function rules(): array {
         return [
-            //
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'required|exists:doctors,id',
+            'type_surgery' => 'required|string',
+            'date_scheduled' => 'required|date',
+            'status_surgery' => 'required|in:scheduled,completed,cancelled',
         ];
     }
 
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(
+            ApiResponseService::error('Validation errors', 422, $validator->errors()->all())
+        );
     }
 }

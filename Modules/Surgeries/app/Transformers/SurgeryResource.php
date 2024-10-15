@@ -1,5 +1,4 @@
 <?php
-
 namespace Modules\Surgeries\Transformers;
 
 use Illuminate\Http\Request;
@@ -7,11 +6,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SurgeryResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     */
-    public function toArray(Request $request): array
-    {
-        return parent::toArray($request);
+    public function toArray($request): array {
+        return [
+            'id' => $this->id,
+            'patient' => $this->patient->name,
+            'doctor' => $this->doctor->name,
+            'type_surgery' => $this->type_surgery,
+            'date_scheduled' => $this->date_scheduled,
+            'status_surgery' => $this->status_surgery,
+        ];
     }
 }

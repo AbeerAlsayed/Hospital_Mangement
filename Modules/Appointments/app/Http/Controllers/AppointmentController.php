@@ -3,57 +3,51 @@
 namespace Modules\Appointments\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\ApiResponseService;
+use Modules\Appointments\Http\Requests\StoreAppointmentRequest;
+use Modules\Appointments\Services\AppointmentService;
+use Modules\Appointments\Transformers\AppointmentResource;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    protected $appointmentService;
 
-        return response()->json([]);
+    public function __construct(AppointmentService $appointmentService)
+    {
+        $this->appointmentService = $appointmentService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreAppointmentRequest $request)
     {
-        //
-
-        return response()->json([]);
+        $data = $request->validated();
+        $appointment = $this->appointmentService->createAppointment($data);
+        return ApiResponseService::success(new AppointmentResource($appointment), 'Appointment created successfully');
     }
 
-    /**
-     * Show the specified resource.
-     */
     public function show($id)
     {
-        //
-
-        return response()->json([]);
+        $appointment = $this->appointmentService->getAppointment($id);
+        return ApiResponseService::success(new AppointmentResource($appointment), 'Appointment fetched successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(StoreAppointmentRequest $request, $id)
     {
-        //
-
-        return response()->json([]);
+        $data = $request->validated();
+        $appointment = $this->appointmentService->updateAppointment($data, $id);
+        return ApiResponseService::success(new AppointmentResource($appointment), 'Appointment updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
+        $this->appointmentService->deleteAppointment($id);
+        return ApiResponseService::success(null, 'Appointment deleted successfully');
+    }
 
-        return response()->json([]);
+    // Method to fetch all appointments with pagination
+    public function index(Request $request)
+    {
+        $perPage = $request->get('per_page', 10); // default 10 per page
+        $appointments = $this->appointmentService->getAllAppointmentsPaginated($perPage);
+        return ApiResponseService::paginated($appointments, 'All appointments fetched successfully');
     }
 }

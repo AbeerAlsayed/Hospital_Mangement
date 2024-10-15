@@ -4,56 +4,47 @@ namespace Modules\Records\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Records\Services\PrescriptionService;
+use Modules\Records\Http\Requests\StorePrescriptionRequest;
+use Modules\Records\Transformers\PrescriptionResource;
+use App\Services\ApiResponseService;
 
 class PrescriptionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    protected $service;
 
-        return response()->json([]);
+    public function __construct(PrescriptionService $service)
+    {
+        $this->service = $service;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        //
-
-        return response()->json([]);
+        $prescriptions = $this->service->getAllPaginated($request->get('per_page', 10));
+        return ApiResponseService::paginated($prescriptions, 'Prescriptions fetched successfully');
     }
 
-    /**
-     * Show the specified resource.
-     */
+    public function store(StorePrescriptionRequest $request)
+    {
+        $prescription = $this->service->create($request->validated());
+        return ApiResponseService::success(new PrescriptionResource($prescription), 'Prescription created successfully');
+    }
+
     public function show($id)
     {
-        //
-
-        return response()->json([]);
+        $prescription = $this->service->getById($id);
+        return ApiResponseService::success(new PrescriptionResource($prescription), 'Prescription retrieved successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(StorePrescriptionRequest $request, $id)
     {
-        //
-
-        return response()->json([]);
+        $prescription = $this->service->update($request->validated(), $id);
+        return ApiResponseService::success(new PrescriptionResource($prescription), 'Prescription updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
-
-        return response()->json([]);
+        $this->service->delete($id);
+        return ApiResponseService::success(null, 'Prescription deleted successfully');
     }
 }

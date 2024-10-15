@@ -3,57 +3,42 @@
 namespace Modules\Surgeries\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\ApiResponseService;
+use Modules\Surgeries\Http\Requests\StoreSurgeryRequest;
+use Modules\Surgeries\Services\SurgeryService;
 
 class SurgeryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    protected $surgeryService;
 
-        return response()->json([]);
+    public function __construct(SurgeryService $surgeryService) {
+        $this->surgeryService = $surgeryService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-
-        return response()->json([]);
+    public function store(StoreSurgeryRequest $request) {
+        $data = $request->validated();
+        $surgery = $this->surgeryService->createSurgery($data);
+        return ApiResponseService::success($surgery, 'Surgery created successfully');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        //
-
-        return response()->json([]);
+    public function show($id) {
+        $surgery = $this->surgeryService->getSurgery($id);
+        return ApiResponseService::success($surgery, 'Surgery fetched successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        //
-
-        return response()->json([]);
+    public function update(StoreSurgeryRequest $request, $id) {
+        $data = $request->validated();
+        $surgery = $this->surgeryService->updateSurgery($data, $id);
+        return ApiResponseService::success($surgery, 'Surgery updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        $this->surgeryService->deleteSurgery($id);
+        return ApiResponseService::success(null, 'Surgery deleted successfully');
+    }
 
-        return response()->json([]);
+    public function index() {
+        $surgeries = $this->surgeryService->getAllSurgeriesPaginated(10);
+        return ApiResponseService::success($surgeries, 'Surgeries fetched successfully');
     }
 }

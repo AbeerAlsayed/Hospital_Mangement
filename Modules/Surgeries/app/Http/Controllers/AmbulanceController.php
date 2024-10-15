@@ -1,59 +1,43 @@
 <?php
-
 namespace Modules\Surgeries\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\ApiResponseService;
+use Modules\Surgeries\Http\Requests\StoreAmbulanceRequest;
+use Modules\Surgeries\Services\AmbulanceService;
 
 class AmbulanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    protected $ambulanceService;
 
-        return response()->json([]);
+    public function __construct(AmbulanceService $ambulanceService) {
+        $this->ambulanceService = $ambulanceService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-
-        return response()->json([]);
+    public function store(StoreAmbulanceRequest $request) {
+        $data = $request->validated();
+        $ambulance = $this->ambulanceService->createAmbulance($data);
+        return ApiResponseService::success($ambulance, 'Ambulance created successfully');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        //
-
-        return response()->json([]);
+    public function show($id) {
+        $ambulance = $this->ambulanceService->getAmbulance($id);
+        return ApiResponseService::success($ambulance, 'Ambulance fetched successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-        //
-
-        return response()->json([]);
+    public function update(StoreAmbulanceRequest $request, $id) {
+        $data = $request->validated();
+        $ambulance = $this->ambulanceService->updateAmbulance($data, $id);
+        return ApiResponseService::success($ambulance, 'Ambulance updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        $this->ambulanceService->deleteAmbulance($id);
+        return ApiResponseService::success(null, 'Ambulance deleted successfully');
+    }
 
-        return response()->json([]);
+    public function index() {
+        $ambulances = $this->ambulanceService->getAllAmbulancesPaginated(10);
+        return ApiResponseService::success($ambulances, 'Ambulances fetched successfully');
     }
 }
