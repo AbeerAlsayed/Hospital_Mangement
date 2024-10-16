@@ -13,7 +13,6 @@ class DepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'location' => 'required|string',
             'head_doctor_id' => 'nullable|exists:doctors,id',
         ];
     }

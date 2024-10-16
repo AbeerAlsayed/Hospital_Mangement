@@ -19,6 +19,10 @@ class Department extends Model
     {
         return $this->hasMany(Doctor::class);
     }
+    public function headDoctor()
+    {
+        return $this->belongsTo(Doctor::class, 'head_doctor_id');
+    }
 
     public function nurses()
     {
