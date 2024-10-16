@@ -14,6 +14,11 @@ use Modules\Shifts\Http\Controllers\ShiftsController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('shifts', ShiftsController::class)->names('shifts');
+
+Route::prefix('shift-schedules')->group(function () {
+    Route::post('/', [ShiftsController::class, 'store']);
+    Route::put('/{shiftSchedule}', [ShiftsController::class, 'update']);
+    Route::delete('/{shiftSchedule}', [ShiftsController::class, 'destroy']);
+    Route::get('/', [ShiftsController::class, 'index']);
+    Route::get('/{shiftSchedule}', [ShiftsController::class, 'show']);
 });

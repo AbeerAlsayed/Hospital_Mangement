@@ -11,14 +11,16 @@ class DepartmentService
         return Department::create($data);
     }
 
-    public function update(Department $department, array $data)
+    public function update($id, array $data)
     {
+        $department = Department::findOrFail($id);
         $department->update($data);
         return $department;
     }
 
-    public function delete(Department $department)
+    public function delete($id)
     {
+        $department = Department::findOrFail($id);
         $department->delete();
     }
 }

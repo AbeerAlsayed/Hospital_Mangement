@@ -44,9 +44,9 @@ class RoomController extends Controller
         }
     }
 
-    public function update(RoomRequest $request, Room $room)
+    public function update(RoomRequest $request,$id)
     {
-        $room = $this->roomService->update($room, $request->validated());
+        $room = $this->roomService->update($id, $request->validated());
         return new RoomResource($room);
     }
 

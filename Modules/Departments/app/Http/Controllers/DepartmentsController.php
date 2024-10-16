@@ -4,7 +4,6 @@ namespace Modules\Departments\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Modules\Departments\Http\Requests\StoreDepartmentRequest;
 use Modules\Departments\Services\DepartmentService;
 use Modules\Departments\Http\Requests\DepartmentRequest;
 use Modules\Departments\Models\Department;
@@ -27,17 +26,15 @@ class DepartmentsController extends Controller
         return DepartmentResource::collection($departments);
     }
 
-
-
     public function store(DepartmentRequest $request)
     {
         $department = $this->departmentService->create($request->validated());
         return response()->json(['message' => 'Department created successfully.', 'data' => $department], 201); // حالة 201 تعني "تم الإنشاء بنجاح"
     }
+
     public function show($id)
     {
         try {
-            // تحميل العلاقة مع الطبيب المسؤول ومع المستخدم المرتبط بالطبيب
             $department = Department::with(['doctors', 'nurses', 'rooms'])->findOrFail($id);
             return new DepartmentResource($department);
         } catch (ModelNotFoundException $e) {
@@ -47,17 +44,14 @@ class DepartmentsController extends Controller
 
     public function update(DepartmentRequest $request, $id)
     {
-        $department = Department::findOrFail($id);
-        $department = $this->departmentService->update($department, $request->validated());
-//        $department->load('headDoctor');
+        $department = $this->departmentService->update($id, $request->validated());
         return response()->json(['message' => 'Department updated successfully.', 'data' => $department], 200);
     }
 
 
     public function destroy($id)
     {
-        $department = Department::findOrFail($id);
-        $this->departmentService->delete($department);
+        $this->departmentService->delete($id);
         return response()->json(['message' => 'Department deleted successfully.'], 200);
     }
 }

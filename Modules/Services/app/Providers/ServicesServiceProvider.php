@@ -34,6 +34,12 @@ class ServicesServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('RayService', function ($app) {
+            return new \Modules\Services\Services\RayService();
+        });
+        $this->app->bind('RayService', function ($app) {
+            return new \Modules\Services\Services\LaboratoryService();
+        });
     }
 
     /**
