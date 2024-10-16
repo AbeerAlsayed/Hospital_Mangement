@@ -2,21 +2,28 @@
 
 namespace Modules\Users\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Users\Database\Factories\NurseFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Nurse extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'user_id',
+        'department_id',
+        'shift',
+    ];
 
-    // protected static function newFactory(): NurseFactory
-    // {
-    //     // return NurseFactory::new();
-    // }
+    // العلاقة مع المستخدم
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // العلاقة مع القسم
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

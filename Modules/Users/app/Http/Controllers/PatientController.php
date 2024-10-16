@@ -3,10 +3,10 @@
 namespace Modules\Users\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Modules\Users\Http\Requests\StorePatientRequest;
 use Modules\Users\Services\PatientService;
+use Modules\Users\Http\Requests\StorePatientRequest;
+use Modules\Users\Transformers\PatientResource;
 use App\Services\ApiResponseService;
-use Illuminate\Http\JsonResponse;
 
 class PatientController extends Controller
 {
@@ -17,36 +17,48 @@ class PatientController extends Controller
         $this->patientService = $patientService;
     }
 
-    public function store(StorePatientRequest $request): JsonResponse
-    {
-        $data = $request->validated();
-        $patient = $this->patientService->createPatient($data);
-
-        return ApiResponseService::success($patient, 'Patient created successfully');
-    }
-
-    public function show($id): JsonResponse
-    {
-        $patient = $this->patientService->getPatient($id);
-        return ApiResponseService::success($patient, 'Patient fetched successfully');
-    }
-
-    public function getAll(): JsonResponse
+    public function index()
     {
         $patients = $this->patientService->getAllPatients();
-        return ApiResponseService::success($patients, 'All patients fetched successfully');
+        return ApiResponseService::paginated(
+            $patients,
+            'Patients fetched successfully'
+        );
     }
 
-    public function update(StorePatientRequest $request, $id): JsonResponse
+    public function store(StorePatientRequest $request)
     {
-        $data = $request->validated();
-        $patient = $this->patientService->updatePatient($data, $id);
-        return ApiResponseService::success($patient, 'Patient updated successfully');
+        $patient = $this->patientService->createPatient($request->validated());
+        return ApiResponseService::success(
+            new PatientResource($patient),
+            'Patient created successfully'
+        );
     }
 
-    public function destroy($id): JsonResponse
+    public function show($id)
+    {
+        $patient = $this->patientService->getPatient($id);
+        return ApiResponseService::success(
+            new PatientResource($patient),
+            'Patient fetched successfully'
+        );
+    }
+
+    public function update(StorePatientRequest $request, $id)
+    {
+        $patient = $this->patientService->updatePatient($request->validated(), $id);
+        return ApiResponseService::success(
+            new PatientResource($patient),
+            'Patient updated successfully'
+        );
+    }
+
+    public function destroy($id)
     {
         $this->patientService->deletePatient($id);
-        return ApiResponseService::success(null, 'Patient deleted successfully');
+        return ApiResponseService::success(
+            null,
+            'Patient deleted successfully'
+        );
     }
 }

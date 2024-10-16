@@ -3,16 +3,24 @@
 namespace Modules\Users\Services;
 
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\Users\Models\Patient;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PatientService
 {
     public function createPatient(array $data)
     {
         try {
-            return Patient::create($data);
+            $patient = Patient::create($data);
+
+            if (isset($data['doctor_ids'])) {
+                $patient->doctors()->sync($data['doctor_ids']);
+            }
+
+            return $patient;
         } catch (Exception $e) {
+            Log::error('Error creating patient: ' . $e->getMessage());
             throw new Exception('Error creating patient.');
         }
     }
@@ -20,22 +28,22 @@ class PatientService
     public function getPatient(int $id)
     {
         try {
-            return Patient::findOrFail($id);
+            return Patient::with(['user', 'room', 'doctors'])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             throw new Exception('Patient not found.');
         }
-    }
-
-    public function getAllPatients()
-    {
-        return Patient::all();
     }
 
     public function updatePatient(array $data, int $id)
     {
         try {
             $patient = Patient::findOrFail($id);
-            $patient->update(array_filter($data));
+            $patient->update($data);
+
+            if (isset($data['doctor_ids'])) {
+                $patient->doctors()->sync($data['doctor_ids']);
+            }
+
             return $patient;
         } catch (ModelNotFoundException $e) {
             throw new Exception('Patient not found.');
@@ -50,5 +58,10 @@ class PatientService
         } catch (ModelNotFoundException $e) {
             throw new Exception('Patient not found.');
         }
+    }
+
+    public function getAllPatients($perPage = 10)
+    {
+        return Patient::with(['user', 'room', 'doctors'])->paginate($perPage);
     }
 }

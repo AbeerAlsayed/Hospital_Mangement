@@ -1,7 +1,10 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use Modules\Users\Http\Controllers\UserController;
+use Modules\Users\Http\Controllers\NurseController;
+
+use Modules\Users\Http\Controllers\DoctorController;
+use Modules\Users\Http\Controllers\PatientController;
 
 /*
  *--------------------------------------------------------------------------
@@ -20,4 +23,32 @@ Route::prefix('users')->group(function () {
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
     Route::get('/', [UserController::class, 'index']); // مسار جديد لجلب جميع المستخدمين
+});
+
+
+
+Route::group(['prefix' => 'nurses', 'middleware' => ['auth:api']], function () {
+    Route::get('/', [NurseController::class, 'index']);
+    Route::post('/', [NurseController::class, 'store']);
+    Route::get('/{id}', [NurseController::class, 'show']);
+    Route::put('/{id}', [NurseController::class, 'update']);
+    Route::delete('/{id}', [NurseController::class, 'destroy']);
+});
+
+
+
+Route::group(['prefix' => 'doctors'], function () {
+    Route::get('/', [DoctorController::class, 'index']);
+    Route::post('/', [DoctorController::class, 'store']);
+    Route::get('/{id}', [DoctorController::class, 'show']);
+    Route::put('/{id}', [DoctorController::class, 'update']);
+    Route::delete('/{id}', [DoctorController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'patients'], function () {
+    Route::get('/', [PatientController::class, 'index']);
+    Route::post('/', [PatientController::class, 'store']);
+    Route::get('/{id}', [PatientController::class, 'show']);
+    Route::put('/{id}', [PatientController::class, 'update']);
+    Route::delete('/{id}', [PatientController::class, 'destroy']);
 });
