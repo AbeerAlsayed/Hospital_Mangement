@@ -34,6 +34,12 @@ class SurgeriesServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+
+        $this->app->bind('AmbulanceService', function ($app) {
+            return new \Modules\Surgeries\Services\AmbulanceService();});
+        $this->app->bind('SurgeryService', function ($app) {
+        return new \Modules\Surgeries\Services\SurgeryService();});
+    
     }
 
     /**

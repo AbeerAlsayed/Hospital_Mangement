@@ -4,6 +4,7 @@ namespace Modules\Users\Services;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Modules\Users\Models\Nurse;
 
 class NurseService
@@ -13,6 +14,7 @@ class NurseService
         try {
             return Nurse::create($data);
         } catch (Exception $e) {
+            Log::error('Error creating nurse: ' . $e->getMessage());
             throw new Exception('Error creating nurse.');
         }
     }
@@ -20,15 +22,10 @@ class NurseService
     public function getNurse(int $id)
     {
         try {
-            return Nurse::findOrFail($id);
+            return Nurse::with(['user', 'department'])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
             throw new Exception('Nurse not found.');
         }
-    }
-
-    public function getAllNurses()
-    {
-        return Nurse::all();
     }
 
     public function updateNurse(array $data, int $id)
@@ -50,5 +47,10 @@ class NurseService
         } catch (ModelNotFoundException $e) {
             throw new Exception('Nurse not found.');
         }
+    }
+
+    public function getAllNurses($limit = 10)
+    {
+        return Nurse::with(['user', 'department'])->paginate($limit);
     }
 }

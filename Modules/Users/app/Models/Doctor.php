@@ -4,14 +4,11 @@ namespace Modules\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Departments\Models\Department;
-use Modules\Users\Database\Factories\DoctorFactory;
 
 class Doctor extends Model
 {
     use HasFactory;
 
-    // الحقول القابلة للتعبئة
     protected $fillable = [
         'user_id',
         'specialization',
@@ -19,20 +16,21 @@ class Doctor extends Model
         'salary',
     ];
 
-    // العلاقة مع نموذج المستخدم
+    // علاقة مع المستخدم
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // العلاقة مع نموذج القسم
+    // علاقة مع المرضى (many-to-many)
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class, 'doctor_patient')->withTimestamps();
+    }
+
+    // علاقة مع القسم
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
-
-     protected static function newFactory()
-     {
-          return DoctorFactory::new();
-     }
 }

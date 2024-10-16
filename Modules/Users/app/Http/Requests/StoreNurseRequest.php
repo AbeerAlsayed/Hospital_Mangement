@@ -19,12 +19,13 @@ class StoreNurseRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'department_id' => 'required|exists:departments,id',
-            'shift' => 'required|string|max:255',
+            'shift' => 'required|string',
         ];
     }
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(ApiResponseService::error('Validation failed', 422, $validator->errors()));
+        $errors = $validator->errors()->all();
+        throw new HttpResponseException(ApiResponseService::error('Validation errors', 422, $errors));
     }
 }

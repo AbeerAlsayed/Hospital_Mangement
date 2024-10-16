@@ -3,10 +3,10 @@
 namespace Modules\Users\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\ApiResponseService;
-use Illuminate\Http\Request;
-use Modules\Users\Http\Requests\StoreUserRequest;
 use Modules\Users\Services\UserService;
+use Modules\Users\Http\Requests\StoreUserRequest;
+use Modules\Users\Transformers\UserResource;
+use App\Services\ApiResponseService;
 
 class UserController extends Controller
 {
@@ -17,37 +17,53 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function store(StoreUserRequest $request)
+    // عرض جميع المستخدمين
+    public function index()
     {
-        $data = $request->validated();
-        $user = $this->userService->createUser($data);
-
-        return ApiResponseService::success($user, 'User created successfully');
+        $users = $this->userService->getAllUsers();
+        return ApiResponseService::paginated(
+            $users,
+            'Users fetched successfully'
+        );
     }
 
+    // إنشاء مستخدم جديد
+    public function store(StoreUserRequest $request)
+    {
+        $user = $this->userService->createUser($request->validated());
+        return ApiResponseService::success(
+            new UserResource($user),
+            'User created successfully'
+        );
+    }
+
+    // عرض بيانات مستخدم معين بناءً على الـ ID
     public function show($id)
     {
         $user = $this->userService->getUser($id);
-        return ApiResponseService::success($user, 'User fetched successfully');
+        return ApiResponseService::success(
+            new UserResource($user),
+            'User fetched successfully'
+        );
     }
 
+    // تحديث بيانات مستخدم معين
     public function update(StoreUserRequest $request, $id)
     {
-        $data = $request->validated();
-        $user = $this->userService->updateUser($data, $id);
-        return ApiResponseService::success($user, 'User updated successfully');
+        $user = $this->userService->updateUser($request->validated(), $id);
+        return ApiResponseService::success(
+            new UserResource($user),
+            'User updated successfully'
+        );
     }
 
+    // حذف مستخدم معين
     public function destroy($id)
     {
         $this->userService->deleteUser($id);
-        return ApiResponseService::success(null, 'User deleted successfully');
-    }
-
-    // تابع جديد للحصول على جميع المستخدمين
-    public function index()
-    {
-        $users = $this->userService->getAllUsers(); // استدعاء خدمة جلب جميع المستخدمين
-        return ApiResponseService::success($users, 'All users fetched successfully');
+        return ApiResponseService::success(
+            null,
+            'User deleted successfully'
+        );
     }
 }

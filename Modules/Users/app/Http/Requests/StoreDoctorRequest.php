@@ -2,10 +2,10 @@
 
 namespace Modules\Users\Http\Requests;
 
-use App\Services\ApiResponseService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Services\ApiResponseService;
 
 class StoreDoctorRequest extends FormRequest
 {
@@ -18,14 +18,19 @@ class StoreDoctorRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'specialization' => 'required|string|max:255',
+            'specialization' => 'required|string',
             'department_id' => 'required|exists:departments,id',
-            'salary' => 'required|numeric|min:0',
+            'salary' => 'required|numeric',
+            'patient_ids' => 'nullable|array',
+            'patient_ids.*' => 'exists:patients,id',
         ];
     }
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(ApiResponseService::error('Validation failed', 422, $validator->errors()));
+        $errors = $validator->errors()->all();
+        throw new HttpResponseException(
+            ApiResponseService::error('Validation errors', 422, $errors)
+        );
     }
 }

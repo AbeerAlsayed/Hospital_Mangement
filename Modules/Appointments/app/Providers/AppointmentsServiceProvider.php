@@ -34,6 +34,8 @@ class AppointmentsServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('AppointmentService', function ($app) {
+            return new \Modules\Appointments\Services\AppointmentService();});
     }
 
     /**

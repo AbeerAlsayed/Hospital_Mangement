@@ -34,6 +34,12 @@ class RecordsServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('MedicalRecordService', function ($app) {
+            return new \Modules\Records\Services\MedicalRecordService();});
+        $this->app->bind('PatientMovementService', function ($app) {
+            return new \Modules\Records\Services\PatientMovementService();});
+        $this->app->bind('PrescriptionService', function ($app) {
+            return new \Modules\Records\Services\PrescriptionService();});
     }
 
     /**

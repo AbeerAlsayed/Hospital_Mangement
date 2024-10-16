@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
-            $table->string('role')->default('patient'); // أو أي قيمة افتراضية أخرى
+            $table->string('role')->default('patient'); // role could be patient, doctor, nurse, etc.
             $table->rememberToken();
             $table->timestamps();
         });

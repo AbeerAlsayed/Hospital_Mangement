@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Surgeries\Http\Controllers\SurgeriesController;
+use Modules\Surgeries\Http\Controllers\SurgeryController;
+use Modules\Surgeries\Http\Controllers\AmbulanceController;
 
 /*
  *--------------------------------------------------------------------------
@@ -14,6 +15,18 @@ use Modules\Surgeries\Http\Controllers\SurgeriesController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('surgeries', SurgeriesController::class)->names('surgeries');
+Route::prefix('surgeries')->group(function () {
+    Route::get('/', [SurgeryController::class, 'index']);
+    Route::post('/', [SurgeryController::class, 'store']);
+    Route::get('/{id}', [SurgeryController::class, 'show']);
+    Route::put('/{id}', [SurgeryController::class, 'update']);
+    Route::delete('/{id}', [SurgeryController::class, 'destroy']);
+});
+
+Route::prefix('ambulances')->group(function () {
+    Route::get('/', [AmbulanceController::class, 'index']);
+    Route::post('/', [AmbulanceController::class, 'store']);
+    Route::get('/{id}', [AmbulanceController::class, 'show']);
+    Route::put('/{id}', [AmbulanceController::class, 'update']);
+    Route::delete('/{id}', [AmbulanceController::class, 'destroy']);
 });
