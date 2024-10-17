@@ -27,7 +27,7 @@ Route::prefix('users')->group(function () {
 
 
 
-Route::group(['prefix' => 'nurses', 'middleware' => ['auth:api']], function () {
+Route::group(['prefix' => 'nurses'], function () {
     Route::get('/', [NurseController::class, 'index']);
     Route::post('/', [NurseController::class, 'store']);
     Route::get('/{id}', [NurseController::class, 'show']);

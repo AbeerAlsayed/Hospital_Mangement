@@ -7,6 +7,7 @@ use App\Services\ApiResponseService;
 use Modules\Appointments\Http\Requests\StoreAppointmentRequest;
 use Modules\Appointments\Services\AppointmentService;
 use Modules\Appointments\Transformers\AppointmentResource;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
