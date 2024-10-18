@@ -4,6 +4,8 @@ namespace Modules\Users\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Departments\Models\Department;
+use Modules\Shifts\Models\ShiftSchedule;
 
 class Nurse extends Model
 {
@@ -12,7 +14,6 @@ class Nurse extends Model
     protected $fillable = [
         'user_id',
         'department_id',
-        'shift',
     ];
 
     // العلاقة مع المستخدم
@@ -25,5 +26,10 @@ class Nurse extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function shifts()
+    {
+        return $this->morphMany(ShiftSchedule::class, 'shiftable');
     }
 }

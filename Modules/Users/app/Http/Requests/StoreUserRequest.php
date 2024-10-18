@@ -11,7 +11,7 @@ class StoreUserRequest extends FormRequest
 
     public function rules()
     {
-        return [
+        $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->id,
@@ -19,8 +19,19 @@ class StoreUserRequest extends FormRequest
             'phone_number' => 'nullable|string',
             'address' => 'nullable|string',
             'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female',
-            'role' => 'nullable|string|in:patient,doctor,nurse',
-        ];
+            'gender' => 'nullable|in:male,female',];
+
+        // إذا كان الدور هو طبيب، قم بإضافة القواعد الخاصة بالطبيب
+        if ($this->input('role') === 'doctor') {
+            $rules['specialization'] = 'required|string|max:255';
+            $rules['department_id'] = 'required|exists:departments,id';
+            $rules['salary'] = 'required|numeric';
+        }
+        if ($this->input('role') === 'patient') {
+            $rules['doctor_id'] = 'required|exists:doctors,id';
+            $rules['room_id'] = 'required|exists:rooms,id';  // التأكد من أن room_id مطلوب وصحيح
+        }
+
+        return $rules;
     }
 }

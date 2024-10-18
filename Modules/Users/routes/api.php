@@ -18,7 +18,10 @@ use Modules\Users\Http\Controllers\PatientController;
 */
 
 Route::prefix('users')->group(function () {
-    Route::post('/', [UserController::class, 'store']);
+    Route::post('/doctor', [UserController::class, 'storeDoctor']);
+    Route::post('/patient', [UserController::class, 'storePatient']);
+    Route::post('/nurse', [UserController::class, 'storeNurse']);
+
     Route::get('/{id}', [UserController::class, 'show']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'destroy']);

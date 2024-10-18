@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('shift_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('doctor_id')->nullable()->constrained('doctors');
-            $table->foreignId('nurse_id')->nullable()->constrained('nurses');
-            $table->foreignId('department_id')->constrained('departments');
+            $table->morphs('shiftable'); // يقوم بإنشاء الأعمدة shiftable_id و shiftable_type
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
             $table->date('date');
-            $table->time('time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }

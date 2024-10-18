@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     public function down(): void
