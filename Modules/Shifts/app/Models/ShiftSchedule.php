@@ -5,9 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShiftSchedule extends Model
 {
+
     protected $fillable = [
         'shiftable_type',
-        'department_id',
+        'shiftable_id',
         'date',
         'start_time',
         'end_time',

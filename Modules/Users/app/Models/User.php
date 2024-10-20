@@ -10,17 +10,23 @@ class User extends Authenticatable
 {
     use  Notifiable;
 
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'password',
-        'phone_number',
-        'address',
-        'date_of_birth',
-        'gender',
-        'role',
-    ];
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'phone_number', 'address', 'date_of_birth', 'gender', 'role',];
+
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class);
+    }
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
+    }
+
+    public function nurse()
+    {
+        return $this->hasOne(Nurse::class);
+    }
+
 
     protected $hidden = [
         'password',
@@ -32,15 +38,4 @@ class User extends Authenticatable
         'date_of_birth' => 'date',
     ];
 
-    
-    public function doctor()
-    {
-        return $this->hasOne(Doctor::class);
-    }
-
-
-    public function patient()
-    {
-        return $this->hasOne(Patient::class);
-    }
 }

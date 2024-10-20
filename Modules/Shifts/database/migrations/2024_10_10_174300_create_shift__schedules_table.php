@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('shift_schedules', function (Blueprint $table) {
             $table->id();
-            $table->morphs('shiftable'); // يقوم بإنشاء الأعمدة shiftable_id و shiftable_type
-            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
+            $table->string('shiftable_type');  // Polymorphic type (e.g., Doctor)
+            $table->unsignedBigInteger('shiftable_id');  // Polymorphic ID (e.g., doctor ID)
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();
         });
+
     }
 
     /**

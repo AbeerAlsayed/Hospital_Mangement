@@ -3,9 +3,12 @@
 namespace Modules\Users\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Modules\Users\Models\Doctor;
 use Modules\Users\Models\Nurse;
 use Modules\Users\Models\Patient;
+use Modules\Users\Services\ShiftService;
 use Modules\Users\Services\UserService;
 use Modules\Users\Http\Requests\StoreUserRequest;
 use Modules\Users\Transformers\UserResource;
@@ -14,40 +17,26 @@ use App\Services\ApiResponseService;
 class UserController extends Controller
 {
     protected $userService;
+    private $shiftService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, ShiftService $shiftService)
     {
         $this->userService = $userService;
+        $this->shiftService = $shiftService;
     }
 
-// دالة خاصة لإضافة الشفتات للطبيب أو الممرضة
-    protected function addShifts($model, $shifts, $department_id)
-    {
-        if ($shifts) {
-            foreach ($shifts as $shift) {
-                // التحقق من صحة الشفتات
-                if (isset($shift['date'], $shift['start_time'], $shift['end_time'])) {
-                    $model->shifts()->create([
-                        'date' => $shift['date'],
-                        'start_time' => $shift['start_time'],
-                        'end_time' => $shift['end_time'],
-                        'department_id' => $department_id
-                    ]);
-                }
-            }
-        }
-    }
 
-// طريقة إنشاء الطبيب
     public function storeDoctor(StoreUserRequest $request)
     {
-        // إنشاء مستخدم جديد للطبيب
+        Log::info('Starting doctor creation');  // سجل بداية العملية
+
+        // إنشاء المستخدم
         $user = $this->userService->createUser(array_merge(
             $request->validated(),
             ['role' => 'doctor']
         ));
 
-        // إنشاء سجل جديد في جدول الأطباء وربط الطبيب بالمستخدم
+        // إنشاء الطبيب
         $doctor = Doctor::create([
             'user_id' => $user->id,
             'specialization' => $request->input('specialization'),
@@ -55,32 +44,49 @@ class UserController extends Controller
             'salary' => $request->input('salary')
         ]);
 
-        // إضافة الشفتات
-        $this->addShifts($doctor, $request->input('shifts'), $doctor->department_id);
+        Log::info('Doctor created with ID: ' . $doctor->id);  // سجل نجاح إنشاء الطبيب
 
+        // تعيين الشفتات للطبيب
+        $this->shiftService->assignShifts($doctor, $request->input('shifts'));
+
+        // تحميل علاقات الطبيب بعد الإنشاء
+        $user->load('doctor.shifts', 'doctor.department', 'doctor.patients');
+
+        Log::info('Shifts loaded for Doctor ID: ' . $doctor->id);  // سجل نجاح تحميل الشفتات
+
+        // إرجاع الرد النهائي
         return ApiResponseService::success(new UserResource($user), 'Doctor created successfully with shifts');
     }
 
-// طريقة إنشاء الممرضة
+
     public function storeNurse(StoreUserRequest $request)
     {
-        // إنشاء مستخدم جديد للممرضة
-        $user = $this->userService->createUser(array_merge(
-            $request->validated(),
-            ['role' => 'nurse']
-        ));
+        DB::beginTransaction();
 
-        // إنشاء سجل جديد في جدول الممرضات وربط الممرضة بالمستخدم والقسم
-        $nurse = Nurse::create([
-            'user_id' => $user->id,
-            'department_id' => $request->input('department_id')
-        ]);
+        try {
+            $user = $this->userService->createUser(array_merge(
+                $request->validated(),
+                ['role' => 'nurse']
+            ));
 
-        // إضافة الشفتات
-        $this->addShifts($nurse, $request->input('shifts'), $nurse->department_id);
+            $nurse = Nurse::create([
+                'user_id' => $user->id,
+                'department_id' => $request->input('department_id')
+            ]);
 
-        return ApiResponseService::success(new UserResource($nurse), 'Nurse created successfully with shifts');
+            $this->shiftService->assignShifts($nurse, $request->input('shifts'));
+
+            $user->load('nurse.shifts', 'nurse.department');
+
+            DB::commit();
+
+            return ApiResponseService::success(new UserResource($user), 'Nurse created successfully with shifts');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return ApiResponseService::error('Nurse creation failed: ' . $e->getMessage(), 500);
+        }
     }
+
 
     public function storePatient(StoreUserRequest $request)
     {

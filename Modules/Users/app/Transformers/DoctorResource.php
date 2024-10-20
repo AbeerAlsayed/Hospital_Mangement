@@ -9,12 +9,11 @@ class DoctorResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'user' => new UserResource($this->user),
-            'specialization' => $this->specialization,
-            'department' => new DepartmentResource($this->department),
-            'salary' => $this->salary,
-            'patients' => PatientResource::collection($this->whenLoaded('patients')),
+            'specialization' => $this->specialization ?? null,
+            'department' => $this->department->name ?? null,
+            'salary' => $this->salary ?? null,
+            'patients' => $this->patients ? $this->patients->pluck('name') : [],
+            'shifts' => ShiftResource::collection($this->shifts),
         ];
     }
 }

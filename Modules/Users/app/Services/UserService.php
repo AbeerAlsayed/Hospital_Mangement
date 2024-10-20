@@ -1,7 +1,6 @@
 <?php
 
 namespace Modules\Users\Services;
-namespace Modules\Users\Services;
 
 use Modules\Users\Models\User;
 

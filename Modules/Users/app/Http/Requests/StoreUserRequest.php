@@ -14,12 +14,15 @@ class StoreUserRequest extends FormRequest
         $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $this->id,
+//            'email' => 'required|email|unique:users,email,' . $this->id,
+            'email' => 'required|email',
+
             'password' => 'nullable|min:8',
             'phone_number' => 'nullable|string',
             'address' => 'nullable|string',
             'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female',];
+            'gender' => 'nullable|in:male,female',
+        ];
 
         // إذا كان الدور هو طبيب، قم بإضافة القواعد الخاصة بالطبيب
         if ($this->input('role') === 'doctor') {
@@ -27,11 +30,19 @@ class StoreUserRequest extends FormRequest
             $rules['department_id'] = 'required|exists:departments,id';
             $rules['salary'] = 'required|numeric';
         }
+
+        // إذا كان الدور هو مريض، قم بإضافة القواعد الخاصة بالمريض
         if ($this->input('role') === 'patient') {
             $rules['doctor_id'] = 'required|exists:doctors,id';
             $rules['room_id'] = 'required|exists:rooms,id';  // التأكد من أن room_id مطلوب وصحيح
         }
 
+        // إذا كان الدور هو ممرضة، قم بإضافة القواعد الخاصة بالممرضة
+        if ($this->input('role') === 'nurse') {
+            $rules['department_id'] = 'required|exists:departments,id';  // القسم الذي تنتمي له الممرضة
+        }
+
         return $rules;
     }
+
 }
