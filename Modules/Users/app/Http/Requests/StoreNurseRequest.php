@@ -17,9 +17,9 @@ class StoreNurseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'exists:users,id',
             'department_id' => 'required|exists:departments,id',
-            'shift' => 'required|string',
+//            'shift' => 'required|string',
         ];
     }
 

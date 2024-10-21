@@ -22,10 +22,10 @@ Route::prefix('users')->group(function () {
     Route::post('/patient', [UserController::class, 'storePatient']);
     Route::post('/nurse', [UserController::class, 'storeNurse']);
 
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
-    Route::get('/', [UserController::class, 'index']); // مسار جديد لجلب جميع المستخدمين
+//    Route::get('/{id}', [UserController::class, 'show']);
+//    Route::put('/{id}', [UserController::class, 'update']);
+//    Route::delete('/{id}', [UserController::class, 'destroy']);
+//    Route::get('/', [UserController::class, 'index']); // مسار جديد لجلب جميع المستخدمين
 });
 
 

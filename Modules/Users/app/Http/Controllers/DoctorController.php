@@ -21,9 +21,7 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = $this->doctorService->getAllDoctors();
-        Doctor::create([
 
-        ]);
         return ApiResponseService::paginated($doctors, 'Doctors fetched successfully');
     }
 
