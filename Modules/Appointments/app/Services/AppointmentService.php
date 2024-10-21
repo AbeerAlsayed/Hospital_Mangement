@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\Appointments\Models\Appointment;
 
+
 class AppointmentService
 {
     public function createAppointment(array $data)

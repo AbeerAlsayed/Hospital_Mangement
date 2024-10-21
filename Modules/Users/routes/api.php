@@ -18,16 +18,19 @@ use Modules\Users\Http\Controllers\PatientController;
 */
 
 Route::prefix('users')->group(function () {
-    Route::post('/', [UserController::class, 'store']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::put('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
-    Route::get('/', [UserController::class, 'index']); // مسار جديد لجلب جميع المستخدمين
+    Route::post('/doctor', [UserController::class, 'storeDoctor']);
+    Route::post('/patient', [UserController::class, 'storePatient']);
+    Route::post('/nurse', [UserController::class, 'storeNurse']);
+
+//    Route::get('/{id}', [UserController::class, 'show']);
+//    Route::put('/{id}', [UserController::class, 'update']);
+//    Route::delete('/{id}', [UserController::class, 'destroy']);
+//    Route::get('/', [UserController::class, 'index']); // مسار جديد لجلب جميع المستخدمين
 });
 
 
 
-Route::group(['prefix' => 'nurses', 'middleware' => ['auth:api']], function () {
+Route::group(['prefix' => 'nurses'], function () {
     Route::get('/', [NurseController::class, 'index']);
     Route::post('/', [NurseController::class, 'store']);
     Route::get('/{id}', [NurseController::class, 'show']);

@@ -3,6 +3,7 @@
 namespace Modules\Users\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Modules\Users\Models\Doctor;
 use Modules\Users\Services\DoctorService;
 use Modules\Users\Http\Requests\StoreDoctorRequest;
 use Modules\Users\Transformers\DoctorResource;
@@ -20,10 +21,8 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = $this->doctorService->getAllDoctors();
-        return ApiResponseService::paginated(
-            $doctors,
-            'Doctors fetched successfully'
-        );
+
+        return ApiResponseService::paginated($doctors, 'Doctors fetched successfully');
     }
 
     public function store(StoreDoctorRequest $request)

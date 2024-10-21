@@ -18,8 +18,10 @@ class StoreAppointmentRequest extends FormRequest
         return [
             'appointment_date' => 'required|date',
             'time' => 'required',
-            'patient_id' => 'required|exists:patients,id',
-            'doctor_id' => 'required|exists:doctors,id',
+            // 'patient_id' => 'required|exists:patients,id',
+            // 'doctor_id' => 'required|exists:doctors,id',
+            'patient_id' => 'nullable',
+            'doctor_id' => 'nullable',
             'status' => 'required|in:scheduled,completed,cancelled',
         ];
     }

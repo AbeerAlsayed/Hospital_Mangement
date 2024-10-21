@@ -34,6 +34,7 @@ class NurseController extends Controller
     public function update(StoreNurseRequest $request, $id)
     {
         $data = $request->validated();
+
         $nurse = $this->nurseService->updateNurse($data, $id);
         return ApiResponseService::success($nurse, 'Nurse updated successfully');
     }

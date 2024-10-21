@@ -17,7 +17,7 @@ class StoreDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'exists:users,id',
             'specialization' => 'required|string',
             'department_id' => 'required|exists:departments,id',
             'salary' => 'required|numeric',

@@ -4,17 +4,14 @@ namespace Modules\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Departments\Models\Department;
+use Modules\Shifts\Models\ShiftSchedule;
 
 class Doctor extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'specialization',
-        'department_id',
-        'salary',
-    ];
+    protected $fillable = ['user_id', 'specialization', 'department_id', 'salary',];
 
     // علاقة مع المستخدم
     public function user()
@@ -33,4 +30,10 @@ class Doctor extends Model
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function shifts()
+    {
+        return $this->morphMany(ShiftSchedule::class, 'shiftable');
+    }
+
 }

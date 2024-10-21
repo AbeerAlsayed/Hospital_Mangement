@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 
 namespace Modules\Users\Http\Requests;
 
@@ -10,36 +9,43 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreUserRequest extends FormRequest
 {
-    public function authorize(): bool
-=======
-namespace Modules\Users\Http\Requests;
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreUserRequest extends FormRequest
-{
     public function authorize()
->>>>>>> origin/sarm
     {
         return true;
     }
 
-<<<<<<< HEAD
-    public function rules(): array
-=======
+
     public function rules()
->>>>>>> origin/sarm
+
     {
-        return [
+        $rules = [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-<<<<<<< HEAD
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
             'phone' => 'nullable|string',
             'date_of_birth' => 'nullable|date',
             'gender' => 'required|in:male,female',
-            'role' => 'required|in:doctor,nurse,patient',
         ];
+        // إذا كان الدور هو طبيب، قم بإضافة القواعد الخاصة بالطبيب
+        if ($this->input('role') === 'doctor') {
+            $rules['specialization'] = 'required|string|max:255';
+            $rules['department_id'] = 'required|exists:departments,id';
+            $rules['salary'] = 'required|numeric';
+        }
+
+        // إذا كان الدور هو مريض، قم بإضافة القواعد الخاصة بالمريض
+        if ($this->input('role') === 'patient') {
+            $rules['doctor_id'] = 'required|exists:doctors,id';
+            $rules['room_id'] = 'required|exists:rooms,id';  // التأكد من أن room_id مطلوب وصحيح
+        }
+
+        // إذا كان الدور هو ممرضة، قم بإضافة القواعد الخاصة بالممرضة
+        if ($this->input('role') === 'nurse') {
+            $rules['department_id'] = 'required|exists:departments,id';  // القسم الذي تنتمي له الممرضة
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(Validator $validator)
@@ -47,15 +53,4 @@ class StoreUserRequest extends FormRequest
         $errors = $validator->errors()->all();
         throw new HttpResponseException(ApiResponseService::error('Validation errors', 422, $errors));
     }
-=======
-            'email' => 'required|email|unique:users,email,' . $this->id,
-            'password' => 'nullable|min:8',
-            'phone_number' => 'nullable|string',
-            'address' => 'nullable|string',
-            'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female',
-            'role' => 'nullable|string|in:patient,doctor,nurse',
-        ];
-    }
->>>>>>> origin/sarm
 }

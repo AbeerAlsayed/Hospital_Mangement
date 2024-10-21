@@ -18,6 +18,13 @@ class UserResource extends JsonResource
             'date_of_birth' => $this->date_of_birth,
             'gender' => $this->gender,
             'role' => $this->role,
+
+            'doctor' => $this->when($this->role === 'doctor' && $this->relationLoaded('doctor'), new DoctorResource($this->doctor)),
+
+            'nurse' => $this->when($this->role === 'nurse' && $this->relationLoaded('nurse'), new NurseResource($this->nurse)),
+
+            'patient' => $this->when($this->role === 'patient' && $this->relationLoaded('patient'), new PatientResource($this->patient)),
+
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
         ];

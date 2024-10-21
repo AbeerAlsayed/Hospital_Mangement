@@ -4,13 +4,15 @@ namespace Modules\Users\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NurseResource extends JsonResource
+
+class ShiftResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
-            'department' => $this->department->name ?? null,
-            'shifts' => ShiftResource::collection($this->shifts),
+            'date' => $this->date,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
         ];
     }
 }

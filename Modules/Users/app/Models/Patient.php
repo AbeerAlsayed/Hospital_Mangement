@@ -3,12 +3,10 @@
 namespace Modules\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Departments\Models\Room;
 
 class Patient extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
         'room_id',
