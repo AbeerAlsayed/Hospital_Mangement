@@ -52,7 +52,7 @@ class RayController extends Controller
     public function destroy($id)
     {
         $this->rayService->delete($id);
-        return response()->json(['message' => 'Rays deleted successfully'], 204);
+        return response()->json(['message' => 'Rays deleted successfully'], 200);
     }
 
 

@@ -10,12 +10,14 @@ class SurgeryService
 {
     public function createSurgery(array $data) {
         try {
+            Log::info('Creating surgery with data: ', $data);
             return Surgery::create($data);
         } catch (Exception $e) {
             Log::error('Error creating surgery: ' . $e->getMessage());
             throw new Exception('Error creating surgery.');
         }
     }
+
 
     public function getSurgery(int $id) {
         try {

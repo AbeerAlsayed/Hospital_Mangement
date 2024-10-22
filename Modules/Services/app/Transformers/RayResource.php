@@ -18,14 +18,14 @@ class RayResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'patient_id' => $this->patient_id,
-            'doctor_id' => $this->doctor_id,
+
+            'patient' => $this->patient->user->first_name . ' ' . $this->patient->user->last_name,
+            'doctor' => $this->doctor->user->first_name . ' ' . $this->doctor->user->last_name,
             'radiology_type' => $this->radiology_type,
             'imaging_date' => $this->imaging_date,
             'results' => $this->results,
             'status' => $this->status,
-            'patient' => new PatientResource($this->whenLoaded('patient')),
-            'doctor' => new DoctorResource($this->whenLoaded('doctor')),
+
         ];
     }
 }

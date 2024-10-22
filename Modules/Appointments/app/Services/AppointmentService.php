@@ -9,6 +9,9 @@ use Modules\Appointments\Models\Appointment;
 
 class AppointmentService
 {
+    /**
+     * @throws Exception
+     */
     public function createAppointment(array $data)
     {
         try {
@@ -19,7 +22,7 @@ class AppointmentService
         }
     }
 
-    public function getAppointment(int $id)
+    public function getAppointment($id)
     {
         try {
             return Appointment::with(['patient', 'doctor'])->findOrFail($id);
@@ -39,7 +42,10 @@ class AppointmentService
         }
     }
 
-    public function deleteAppointment(int $id)
+    /**
+     * @throws Exception
+     */
+    public function deleteAppointment($id)
     {
         try {
             $appointment = Appointment::findOrFail($id);

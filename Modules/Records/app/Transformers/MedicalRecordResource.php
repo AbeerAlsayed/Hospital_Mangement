@@ -3,6 +3,8 @@
 namespace Modules\Records\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Users\Transformers\DoctorResource;
+use Modules\Users\Transformers\PatientResource;
 
 class MedicalRecordResource extends JsonResource
 {

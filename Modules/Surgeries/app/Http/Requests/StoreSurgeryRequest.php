@@ -16,9 +16,10 @@ class StoreSurgeryRequest extends FormRequest
         return [
             'patient_id' => 'required|exists:patients,id',
             'doctor_id' => 'required|exists:doctors,id',
+            'room_id' => 'required|exists:rooms,id',
             'type_surgery' => 'required|string',
             'date_scheduled' => 'required|date',
-            'status_surgery' => 'required|in:scheduled,completed,cancelled',
+            'status_surgery' => 'required|string',
         ];
     }
 

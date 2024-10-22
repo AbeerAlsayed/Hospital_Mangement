@@ -38,7 +38,7 @@ class LaboratoryController extends Controller
     public function destroy($id)
     {
         $this->laboratoryService->delete($id);
-        return response()->json(['message' => 'Laboratory test deleted successfully'], 204);
+        return response()->json(['message' => 'Laboratory test deleted successfully'], 200);
     }
 
     public function show($id)

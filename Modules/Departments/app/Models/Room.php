@@ -5,6 +5,7 @@ namespace Modules\Departments\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Departments\Database\Factories\RoomFactory;
+use Modules\Surgeries\Models\Surgery;
 use Modules\Users\Models\Patient;
 
 // use Modules\Departments\Database\Factories\RoomFactory;
@@ -31,4 +32,8 @@ class Room extends Model
         return $this->hasMany(Patient::class);
     }
 
+    public function surgery()
+    {
+        return $this->hasMany(Surgery::class);
+    }
 }

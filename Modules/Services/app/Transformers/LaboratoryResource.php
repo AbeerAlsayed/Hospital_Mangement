@@ -20,13 +20,11 @@ class LaboratoryResource extends JsonResource
         return [
             'id' => $this->id,
             'test_name' => $this->test_name,
-            'patient_id' => $this->patient_id,
-            'doctor_id' => $this->doctor_id,
             'test_date' => $this->test_date,
             'results' => $this->results,
             'status' => $this->status,
-            'patient' => new PatientResource($this->whenLoaded('patient')),
-            'doctor' => new DoctorResource($this->whenLoaded('doctor')),
+            'patient' => $this->patient->user->first_name . ' ' . $this->patient->user->last_name,
+            'doctor' => $this->doctor->user->first_name . ' ' . $this->doctor->user->last_name,
         ];
     }
 }

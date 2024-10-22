@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ApiResponseService;
 use Modules\Surgeries\Http\Requests\StoreSurgeryRequest;
 use Modules\Surgeries\Services\SurgeryService;
+use Modules\Surgeries\Transformers\SurgeryResource;
 
 class SurgeryController extends Controller
 {
@@ -23,7 +24,7 @@ class SurgeryController extends Controller
 
     public function show($id) {
         $surgery = $this->surgeryService->getSurgery($id);
-        return ApiResponseService::success($surgery, 'Surgery fetched successfully');
+        return ApiResponseService::success(new SurgeryResource($surgery), 'Surgery fetched successfully');
     }
 
     public function update(StoreSurgeryRequest $request, $id) {

@@ -7,19 +7,19 @@ use Modules\Services\Models\Rays;
 
 class RayService
 {
-    public function create(array $data): Ray
+    public function create(array $data)
     {
         return Rays::create($data);
     }
 
-    public function update($id, array $data): Ray
+    public function update($id, array $data)
     {
         $ray = Rays::findOrFail($id);
         $ray->update($data);
         return $ray;
     }
 
-    public function delete($id): bool
+    public function delete($id)
     {
         $ray = Rays::findOrFail($id);
         return $ray->delete();

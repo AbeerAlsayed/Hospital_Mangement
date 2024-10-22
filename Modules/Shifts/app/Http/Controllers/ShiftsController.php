@@ -23,9 +23,14 @@ class ShiftsController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 5);
-        $shiftSchedules = ShiftSchedule::with(['doctor', 'nurse', 'department'])->paginate($perPage);
+
+        // جلب بيانات الشيفتات مع الكيان المرتبط (يمكن أن يكون Doctor أو Nurse)
+        $shiftSchedules = ShiftSchedule::with(['shiftable.user'])->paginate($perPage);
+
+        // إرجاع الشيفتات باستخدام الـ Resource
         return ShiftScheduleResource::collection($shiftSchedules);
     }
+
 
     public function store(StoreShiftScheduleRequest $request)
     {
@@ -42,17 +47,15 @@ class ShiftsController extends Controller
     public function destroy($id)
     {
         $this->shiftScheduleService->delete($id);
-        return response()->json(['message' => 'Shift schedule deleted successfully'], 204);
+        return response()->json(['message' => 'Shift schedule deleted successfully'], 200);
     }
 
     public function show($id)
     {
-        try {
-            $shiftSchedule = ShiftSchedule::with(['doctor', 'nurse', 'department'])->findOrFail($id);
-            return new ShiftScheduleResource($shiftSchedule);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Shift schedule not found.'], 404);
-        }
+        $shiftSchedule = ShiftSchedule::findOrFail($id);
+
+        // Return the shift schedule as a resource
+        return new ShiftScheduleResource($shiftSchedule);
     }
 
 }

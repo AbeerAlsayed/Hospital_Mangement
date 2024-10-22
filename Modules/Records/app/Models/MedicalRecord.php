@@ -25,6 +25,8 @@
 namespace Modules\Records\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Users\Models\Doctor;
+use Modules\Users\Models\Patient;
 
 class MedicalRecord extends Model
 {

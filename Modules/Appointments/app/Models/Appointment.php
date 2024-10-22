@@ -4,6 +4,8 @@ namespace Modules\Appointments\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Users\Models\Doctor;
+use Modules\Users\Models\Patient;
 
 class Appointment extends Model
 {

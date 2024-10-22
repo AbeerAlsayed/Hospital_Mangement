@@ -2,6 +2,8 @@
 namespace Modules\Appointments\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Users\Transformers\DoctorResource;
+use Modules\Users\Transformers\PatientResource;
 
 class AppointmentResource extends JsonResource
 {

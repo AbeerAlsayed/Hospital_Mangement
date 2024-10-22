@@ -31,6 +31,9 @@ class AppointmentController extends Controller
         return ApiResponseService::success(new AppointmentResource($appointment), 'Appointment fetched successfully');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(StoreAppointmentRequest $request, $id)
     {
         $data = $request->validated();
