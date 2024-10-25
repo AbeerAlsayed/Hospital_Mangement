@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Users\Http\Controllers\UserController;
 use Modules\Users\Http\Controllers\NurseController;
+use Modules\Users\Http\Controllers\AuthController;
 
 use Modules\Users\Http\Controllers\DoctorController;
 use Modules\Users\Http\Controllers\PatientController;
@@ -54,4 +55,27 @@ Route::group(['prefix' => 'patients'], function () {
     Route::get('/{id}', [PatientController::class, 'show']);
     Route::put('/{id}', [PatientController::class, 'update']);
     Route::delete('/{id}', [PatientController::class, 'destroy']);
+});
+
+Route::controller(AuthController::class)->group(function () {
+    /**
+     * Login Route
+     *
+     * @method POST
+     * @route /v1/login
+     * @desc Authenticates a user and returns a JWT token.
+     */
+    Route::post('login', 'login');
+
+   
+
+    /**
+     * Logout Route
+     *
+     * @method POST
+     * @route /v1/logout
+     * @desc Logs out the authenticated user.
+     * @middleware auth:api
+     */
+    Route::post('logout', 'logout')->middleware('auth:api');
 });
