@@ -23,7 +23,8 @@ class StoreUserRequest extends FormRequest
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
-            'phone' => 'nullable|string',
+            'phone_number' => 'nullable|string|regex:/^\+?[0-9]{10,15}$/',
+            'address' => 'nullable|string|max:255',
             'date_of_birth' => 'nullable|date',
             'gender' => 'required|in:male,female',
         ];

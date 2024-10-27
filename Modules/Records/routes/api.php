@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Records\Http\Controllers\MedicalRecordController;
 use Modules\Records\Http\Controllers\PrescriptionController;
 use Modules\Records\Http\Controllers\PatientMovementController;
+use Modules\Records\Http\Controllers\RecordsController;
 
 /*
  *--------------------------------------------------------------------------
@@ -17,11 +17,11 @@ use Modules\Records\Http\Controllers\PatientMovementController;
 */
 
 Route::prefix('medical-records')->group(function () {
-    Route::get('/', [MedicalRecordController::class, 'index']);
-    Route::post('/', [MedicalRecordController::class, 'store']);
-    Route::get('/{id}', [MedicalRecordController::class, 'show']);
-    Route::put('/{id}', [MedicalRecordController::class, 'update']);
-    Route::delete('/{id}', [MedicalRecordController::class, 'destroy']);
+    Route::get('/', [RecordsController::class, 'index']);
+    Route::post('/', [RecordsController::class, 'store']);
+    Route::get('/{id}', [RecordsController::class, 'show']);
+    Route::put('/{id}', [RecordsController::class, 'update']);
+    Route::delete('/{id}', [RecordsController::class, 'destroy']);
 });
 
 Route::prefix('prescriptions')->group(function () {

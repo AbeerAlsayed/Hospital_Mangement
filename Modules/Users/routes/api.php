@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use Modules\Users\Http\Controllers\UserController;
+use Modules\Users\Http\Controllers\UsersController;
 use Modules\Users\Http\Controllers\NurseController;
 use Modules\Users\Http\Controllers\AuthController;
 use Modules\Users\Http\Controllers\DoctorController;
@@ -18,9 +18,9 @@ use Modules\Users\Http\Controllers\PatientController;
 */
 
 Route::prefix('users')->group(function () {
-    Route::post('/doctor', [UserController::class, 'storeDoctor']);
-    Route::post('/patient', [UserController::class, 'storePatient']);
-    Route::post('/nurse', [UserController::class, 'storeNurse']);
+    Route::post('/doctor', [UsersController::class, 'storeDoctor']);
+    Route::post('/patient', [UsersController::class, 'storePatient']);
+    Route::post('/nurse', [UsersController::class, 'storeNurse']);
 
 //    Route::get('/{id}', [UserController::class, 'show']);
 //    Route::put('/{id}', [UserController::class, 'update']);
@@ -69,7 +69,7 @@ Route::controller(AuthController::class)->group(function () {
      */
     Route::post('login', 'login');
 
-  
+
     /**
      * Logout Route
      *
@@ -81,4 +81,3 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout')->middleware('auth:api');
 });
 
- 

@@ -8,7 +8,7 @@ use Modules\Surgeries\Http\Requests\StoreSurgeryRequest;
 use Modules\Surgeries\Services\SurgeryService;
 use Modules\Surgeries\Transformers\SurgeryResource;
 
-class SurgeryController extends Controller
+class SurgeriesController extends Controller
 {
     protected $surgeryService;
 

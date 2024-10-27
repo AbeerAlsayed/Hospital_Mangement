@@ -14,7 +14,7 @@ use Modules\Users\Http\Requests\StoreUserRequest;
 use Modules\Users\Transformers\UserResource;
 use App\Services\ApiResponseService;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     protected $userService;
     private $shiftService;

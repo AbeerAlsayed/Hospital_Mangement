@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Surgeries\Http\Controllers\SurgeryController;
+use Modules\Surgeries\Http\Controllers\SurgeriesController;
 use Modules\Surgeries\Http\Controllers\AmbulanceController;
 
 /*
@@ -16,11 +16,11 @@ use Modules\Surgeries\Http\Controllers\AmbulanceController;
 */
 
 Route::prefix('surgeries')->group(function () {
-    Route::get('/', [SurgeryController::class, 'index']);
-    Route::post('/', [SurgeryController::class, 'store']);
-    Route::get('/{id}', [SurgeryController::class, 'show']);
-    Route::put('/{id}', [SurgeryController::class, 'update']);
-    Route::delete('/{id}', [SurgeryController::class, 'destroy']);
+    Route::get('/', [SurgeriesController::class, 'index']);
+    Route::post('/', [SurgeriesController::class, 'store']);
+    Route::get('/{id}', [SurgeriesController::class, 'show']);
+    Route::put('/{id}', [SurgeriesController::class, 'update']);
+    Route::delete('/{id}', [SurgeriesController::class, 'destroy']);
 });
 
 Route::prefix('ambulances')->group(function () {
