@@ -20,18 +20,10 @@ class PatientController extends Controller
     public function index()
     {
         $patients = $this->patientService->getAllPatients();
+        $patientResource = PatientResource::collection($patients);
         return ApiResponseService::paginated(
-            $patients,
+            $patients->setCollection(PatientResource::collection($patients->getCollection())->collection),
             'Patients fetched successfully'
-        );
-    }
-
-    public function store(StorePatientRequest $request)
-    {
-        $patient = $this->patientService->createPatient($request->validated());
-        return ApiResponseService::success(
-            new PatientResource($patient),
-            'Patient created successfully'
         );
     }
 

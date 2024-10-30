@@ -9,7 +9,7 @@ use Modules\Records\Http\Requests\StoreMedicalRecordRequest;
 use Modules\Records\Transformers\MedicalRecordResource;
 use App\Services\ApiResponseService;
 
-class MedicalRecordController extends Controller
+class RecordsController extends Controller
 {
     protected $service;
 

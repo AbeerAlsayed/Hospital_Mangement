@@ -21,18 +21,13 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = $this->doctorService->getAllDoctors();
-
-        return ApiResponseService::paginated($doctors, 'Doctors fetched successfully');
-    }
-
-    public function store(StoreDoctorRequest $request)
-    {
-        $doctor = $this->doctorService->createDoctor($request->validated());
-        return ApiResponseService::success(
-            new DoctorResource($doctor),
-            'Doctor created successfully'
+        $doctorResource = DoctorResource::collection($doctors);
+        return ApiResponseService::paginated(
+            $doctors->setCollection(DoctorResource::collection($doctors->getCollection())->collection),
+            'Doctors fetched successfully'
         );
     }
+
 
     public function show($id)
     {

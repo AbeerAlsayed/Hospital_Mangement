@@ -13,12 +13,11 @@ use Modules\Appointments\Http\Controllers\AppointmentsController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
-use Modules\Appointments\Http\Controllers\AppointmentController;
 
 Route::prefix('appointments')->group(function () {
-    Route::get('/', [AppointmentController::class, 'index']);
-    Route::post('/', [AppointmentController::class, 'store']);
-    Route::get('/{id}', [AppointmentController::class, 'show']);
-    Route::put('/{id}', [AppointmentController::class, 'update']);
-    Route::delete('/{id}', [AppointmentController::class, 'destroy']);
+    Route::get('/', [AppointmentsController::class, 'index']);
+    Route::post('/', [AppointmentsController::class, 'store']);
+    Route::get('/{id}', [AppointmentsController::class, 'show']);
+    Route::put('/{id}', [AppointmentsController::class, 'update']);
+    Route::delete('/{id}', [AppointmentsController::class, 'destroy']);
 });

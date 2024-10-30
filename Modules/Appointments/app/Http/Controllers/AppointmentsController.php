@@ -9,7 +9,7 @@ use Modules\Appointments\Services\AppointmentService;
 use Modules\Appointments\Transformers\AppointmentResource;
 use Illuminate\Http\Request;
 
-class AppointmentController extends Controller
+class AppointmentsController extends Controller
 {
     protected $appointmentService;
 

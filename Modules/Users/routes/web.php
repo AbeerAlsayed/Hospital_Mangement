@@ -14,6 +14,4 @@ use Modules\Users\Http\Controllers\UsersController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('users', UsersController::class)->names('users');
-});
+

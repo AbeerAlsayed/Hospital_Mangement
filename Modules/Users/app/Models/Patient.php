@@ -10,6 +10,7 @@ class Patient extends Model
     protected $fillable = [
         'user_id',
         'room_id',
+        'national_number',
     ];
 
     // علاقة مع المستخدم

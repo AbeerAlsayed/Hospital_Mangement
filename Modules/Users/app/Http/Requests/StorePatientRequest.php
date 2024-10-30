@@ -21,6 +21,8 @@ class StorePatientRequest extends FormRequest
             'room_id' => 'required|exists:rooms,id',
             'doctor_ids' => 'nullable|array',
             'doctor_ids.*' => 'exists:doctors,id',
+            'national_number' => 'required|string|max:20|unique:patients,national_number', // قواعد التحقق
+
         ];
     }
 

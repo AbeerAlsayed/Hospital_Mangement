@@ -18,5 +18,6 @@ class UsersDatabaseSeeder extends Seeder
     {
 //        User::factory()->count(10)->create();
 //        Doctor::factory()->count(10)->create();
+
     }
 }
