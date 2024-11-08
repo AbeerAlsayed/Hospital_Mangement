@@ -17,7 +17,7 @@ class BillingServiceProvider extends ServiceProvider
     /**
      * Boot the application events.
      */
-    public function boot(): void
+    public function boot()
     {
         $this->registerCommands();
         $this->registerCommandSchedules();

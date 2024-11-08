@@ -17,10 +17,16 @@ class StorePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'exists:users,id',
-            'room_id' => 'required|exists:rooms,id',
-            'doctor_ids' => 'nullable|array',
-            'doctor_ids.*' => 'exists:doctors,id',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8',
+            'phone_number' => 'nullable|string',
+            'address' => 'nullable|string|max:255',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'required|in:male,female',
+            'room_id' => 'required|exists:rooms,id',  // التأكد من أن room_id مطلوب وصحيح
+            'national_number' => 'required|string|max:20|unique:patients,national_number',// قواعد التحقق
         ];
     }
 

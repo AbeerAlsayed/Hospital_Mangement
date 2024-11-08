@@ -19,6 +19,7 @@ class AuthService
             ];
         }
 
+
         return [
             'status' => 'success',
             'user' => Auth::user(),
@@ -27,7 +28,7 @@ class AuthService
         ];
     }
 
-    
+
     public function logout()
     {
         Auth::logout();

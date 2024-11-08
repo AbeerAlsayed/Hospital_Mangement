@@ -14,4 +14,3 @@ use Modules\Appointments\Http\Controllers\AppointmentsController;
 |
 */
 
-

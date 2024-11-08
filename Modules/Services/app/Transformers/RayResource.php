@@ -18,7 +18,6 @@ class RayResource extends JsonResource
     {
         return [
             'id' => $this->id,
-
             'patient' => $this->patient->user->first_name . ' ' . $this->patient->user->last_name,
             'doctor' => $this->doctor->user->first_name . ' ' . $this->doctor->user->last_name,
             'radiology_type' => $this->radiology_type,
