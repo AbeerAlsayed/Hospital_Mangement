@@ -17,12 +17,17 @@ class StoreDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'exists:users,id',
-            'specialization' => 'required|string',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8',
+            'phone_number' => 'nullable|string',
+            'address' => 'nullable|string|max:255',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'required|in:male,female',
+            'specialization' => 'required|string|max:255',
             'department_id' => 'required|exists:departments,id',
             'salary' => 'required|numeric',
-            'patient_ids' => 'nullable|array',
-            'patient_ids.*' => 'exists:patients,id',
         ];
     }
 

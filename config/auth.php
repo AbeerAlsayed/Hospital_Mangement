@@ -37,7 +37,7 @@ return [
     |
     */
 
-   
+
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -45,40 +45,40 @@ return [
         ],
 
         'api' => [
-                'driver' => 'jwt',
-                'provider' => 'users',
+            'driver' => 'jwt',
+            'provider' => 'users',
         ],
 
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins', // استخدم "admins" كمعرف يشير إلى provider
+        ],
+
+        'doctor' => [
+            'driver' => 'session',
+            'provider' => 'doctors', // استخدم "doctors" كمعرف يشير إلى provider
+        ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | User Providers
-    |--------------------------------------------------------------------------
-    |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
-    |
-    | If you have multiple user tables or models you may configure multiple
-    | providers to represent the model / table. These providers may then
-    | be assigned to any extra authentication guards you have defined.
-    |
-    | Supported: "database", "eloquent"
-    |
-    */
+
 
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL',Modules\Users\Models\User::class),
+            'model' => env('AUTH_MODEL', Modules\Users\Models\User::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => Modules\Users\Models\User::class, // النموذج الخاص بالمسؤولين
+        ],
+
+        'doctors' => [
+            'driver' => 'eloquent',
+            'model' => Modules\Users\Models\Doctor::class, // النموذج الخاص بالأطباء
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

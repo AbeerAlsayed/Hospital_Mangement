@@ -13,6 +13,7 @@ class ShiftSchedule extends Model
         'date',
         'start_time',
         'end_time',
+        'session_period'
     ];
 
     public function shiftable()

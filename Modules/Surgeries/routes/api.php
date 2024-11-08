@@ -15,12 +15,17 @@ use Modules\Surgeries\Http\Controllers\AmbulanceController;
  *
 */
 
+
 Route::prefix('surgeries')->group(function () {
     Route::get('/', [SurgeriesController::class, 'index']);
-    Route::post('/', [SurgeriesController::class, 'store']);
+    Route::get('filter', [SurgeriesController::class, 'filterSurgeries']);
     Route::get('/{id}', [SurgeriesController::class, 'show']);
-    Route::put('/{id}', [SurgeriesController::class, 'update']);
-    Route::delete('/{id}', [SurgeriesController::class, 'destroy']);
+
+    Route::middleware(['auth:api', 'role:doctor'])->group(function () {
+        Route::post('/', [SurgeriesController::class, 'store']);
+        Route::put('/{id}', [SurgeriesController::class, 'update']);
+        Route::delete('/{id}', [SurgeriesController::class, 'destroy']);
+    });
 });
 
 Route::prefix('ambulances')->group(function () {

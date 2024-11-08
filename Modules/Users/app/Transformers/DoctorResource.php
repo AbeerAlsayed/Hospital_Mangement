@@ -10,7 +10,8 @@ class DoctorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->user->first_name .' '.$this->user->last_name,
+            'first_name' => $this->user->first_name,  // إرجاع الاسم الأول بشكل منفصل
+            'last_name' => $this->user->last_name,    // إرجاع الاسم الأخير بشكل منفصل
             'email' => isset($this->user->email) ? $this->user->email : null,
             'phone_number' => isset($this->user->phone_number) ? $this->user->phone_number : null,
             'address' => isset($this->user->address) ? $this->user->address : null,

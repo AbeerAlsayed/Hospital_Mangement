@@ -15,6 +15,16 @@ use Modules\Departments\Http\Controllers\RoomController;
  *
 */
 
-Route::apiResource('departments', DepartmentsController::class);
+Route::get('departments/filter-departments', [DepartmentsController::class, 'filterDepartment']);
+Route::apiResource('departments', DepartmentsController::class)->only(['index', 'show']);
 
-Route::apiResource('rooms', RoomController::class);
+Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    Route::apiResource('departments', DepartmentsController::class)->except(['index', 'show']);
+});
+
+Route::get('rooms/filter-rooms', [RoomController::class, 'filterRooms']);
+
+Route::apiResource('rooms', RoomController::class)->only(['index', 'show']);
+Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    Route::apiResource('rooms', RoomController::class)->except(['index', 'show']);
+});

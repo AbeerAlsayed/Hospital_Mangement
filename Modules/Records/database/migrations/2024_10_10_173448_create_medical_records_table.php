@@ -15,11 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained('patients');
             $table->foreignId('doctor_id')->constrained('doctors');
-            $table->date('date');
-            $table->text('diagnosis');
-            $table->text('prescription');
-            $table->text('treatment_plan');
-            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

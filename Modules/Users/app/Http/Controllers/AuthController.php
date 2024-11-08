@@ -10,39 +10,33 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    /**
-     * @var AuthService
-     */
     protected $authService;
-
-    /**
-     * AuthController constructor.
-     *
-     * @param AuthService $authService
-     */
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
     }
 
-    /**
-     * Login a user.
-     *
-     * @param LoginRequest $request
-     * @return JsonResponse
-     */
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
 
+        // حاول تسجيل الدخول باستخدام بيانات الاعتماد
         $response = $this->authService->login($credentials);
 
+        // تحقق إذا كانت العملية بها خطأ
         if ($response['status'] === 'error') {
             return ApiResponseService::error($response['message'], $response['code']);
         }
 
+        // إذا تم تسجيل الدخول بنجاح، تحقق من دور المستخدم
+        $user = $response['user'];
+        if (!in_array($user->role, ['admin', 'doctor'])) {
+            return ApiResponseService::error('Unauthorized: You do not have access to this application.', 403);
+        }
+
+        // إذا كان الدور صحيحًا، أرجع الاستجابة
         return ApiResponseService::success([
-            'user' => $response['user'],
+            'user' => $user,
             'authorisation' => [
                 'token' => $response['token'],
                 'type' => 'bearer',
@@ -50,36 +44,11 @@ class AuthController extends Controller
         ], 'Login successful', $response['code']);
     }
 
-    /**
-     * Register a new user.
-     *
-     * @param RegisterRequest $request
-     * @return JsonResponse
-     */
-    // public function register(RegisterRequest $request)
-    // {
-    //     $data = $request->validated();
 
-    //     $response = $this->authService->register($data);
 
-    //     return ApiResponseService::success([
-    //         'user' => $response['user'],
-    //         'authorisation' => [
-    //             'token' => $response['token'],
-    //             'type' => 'bearer',
-    //         ]
-    //     ], 'User created successfully', $response['code']);
-    // }
-
-    /**
-     * Logout the current user.
-     *
-     * @return JsonResponse
-     */
     public function logout()
     {
         $response = $this->authService->logout();
-
         return ApiResponseService::success(null, $response['message'], $response['code']);
     }
 }

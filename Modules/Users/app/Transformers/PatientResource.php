@@ -9,7 +9,8 @@ class PatientResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->user->first_name .' '.$this->user->last_name,
+            'first_name' => $this->user->first_name,  // إرجاع الاسم الأول بشكل منفصل
+            'last_name' => $this->user->last_name,    // إرجاع الاسم الأخير بشكل منفصل
             'email' => $this->user->email,
             'phone_number' => $this->user->phone_number,
             'address' => $this->user->address,

@@ -19,19 +19,29 @@ use Modules\Services\Http\Controllers\ServicesController;
 
 
 
-Route::prefix('rays')->group(function () {
+// مسارات "rays"
+Route::group(['prefix' => 'rays'], function () {
     Route::get('/', [RayController::class, 'index']);
+    Route::get('filter-rays', [RayController::class, 'filterRays']);
     Route::get('/{ray}', [RayController::class, 'show']);
-    Route::post('/', [RayController::class, 'store']);
-    Route::put('/{ray}', [RayController::class, 'update']);
-    Route::delete('/{ray}', [RayController::class, 'destroy']);
+
+    Route::middleware(['auth:api', 'role:doctor'])->group(function () {
+        Route::post('/', [RayController::class, 'store']);
+        Route::put('/{ray}', [RayController::class, 'update']);
+        Route::delete('/{ray}', [RayController::class, 'destroy']);
+    });
 });
 
-
-Route::prefix('laboratories')->group(function () {
-    Route::post('/', [LaboratoryController::class, 'store']);
-    Route::put('/{laboratory}', [LaboratoryController::class, 'update']);
-    Route::delete('/{laboratory}', [LaboratoryController::class, 'destroy']);
+// مسارات "laboratories"
+Route::group(['prefix' => 'laboratories'], function () {
     Route::get('/', [LaboratoryController::class, 'index']);
+    Route::get('filter', [LaboratoryController::class, 'filterLaboratories']);
     Route::get('/{laboratory}', [LaboratoryController::class, 'show']);
+
+    Route::middleware(['auth:api', 'role:doctor'])->group(function () {
+        Route::post('/', [LaboratoryController::class, 'store']);
+        Route::put('/{laboratory}', [LaboratoryController::class, 'update']);
+        Route::delete('/{laboratory}', [LaboratoryController::class, 'destroy']);
+    });
 });
+

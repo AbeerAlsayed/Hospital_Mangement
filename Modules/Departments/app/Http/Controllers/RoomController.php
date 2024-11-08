@@ -3,6 +3,7 @@
 namespace Modules\Departments\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\ApiResponseService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Modules\Departments\Http\Requests\RoomRequest;
@@ -30,7 +31,7 @@ class RoomController extends Controller
     public function store(RoomRequest $request)
     {
         $room = $this->roomService->create($request->validated());
-        return response()->json(['message' => 'Department created successfully.', 'data' => $room], 201); // حالة 201 تعني "تم الإنشاء بنجاح"
+        return ApiResponseService::success(['message' => 'Department created successfully.', 'data' => $room], 201); // حالة 201 تعني "تم الإنشاء بنجاح"
     }
 
     public function show($id)
@@ -40,7 +41,7 @@ class RoomController extends Controller
             $room = Room::with(['department', 'patients'])->findOrFail($id);
             return new RoomResource($room);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Room not found.'], 404);
+            ApiResponseService::error(['message' => 'Room not found.'], 404);
         }
     }
 
@@ -54,6 +55,32 @@ class RoomController extends Controller
     {
         $room = Room::findOrFail($id);
         $this->roomService->delete($room);
-        return response()->json(['message' => 'Room deleted successfully.'], 200);
+        return ApiResponseService::success(null, 'Room deleted successfully.');
     }
+
+    public function filterRooms(Request $request)
+    {
+        $query = Room::query();
+
+        // فلترة حسب رقم الغرفة إذا تم تقديمه في الطلب
+        if ($request->has('room_number')) {
+            $query->where('room_number', 'LIKE', '%' . $request->input('room_number') . '%');
+        }
+
+        // فلترة حسب نوع الغرفة إذا تم تقديمه في الطلب
+        if ($request->has('type')) {
+            $query->where('type', $request->input('type'));
+        }
+
+        // فلترة حسب حالة الغرفة إذا تم تقديمه في الطلب
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+
+        // جلب النتائج وتغليفها باستخدام RoomResource
+        $rooms = $query->get();
+        return RoomResource::collection($rooms);
+    }
+
 }

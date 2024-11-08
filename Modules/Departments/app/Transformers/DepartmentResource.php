@@ -23,7 +23,7 @@ class DepartmentResource extends JsonResource
             'rooms' => $this->whenLoaded('rooms', function () {
                 // إرجاع فقط رقم الغرفة
                 return $this->rooms->map(function ($room) {
-                    return $room->room_number;
+                    return [$room->id,$room->room_number];
                 });
             }),
             'number_of_rooms' => $this->rooms()->count(),
