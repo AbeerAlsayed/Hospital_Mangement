@@ -34,8 +34,5 @@ class Doctor extends Model
     {
         return $this->morphMany(ShiftSchedule::class, 'shiftable');
     }
-    public function medicalRecords()
-    {
-        return $this->hasMany(MedicalRecord::class);
-    }
+
 }

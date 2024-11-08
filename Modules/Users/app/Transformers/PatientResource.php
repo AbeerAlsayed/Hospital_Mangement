@@ -19,5 +19,6 @@ class PatientResource extends JsonResource
             'room' => $this->room->room_number, // تأكد من وجود حقل name في جدول الغرف
             'national_number' => $this->national_number,
         ];
+
     }
 }

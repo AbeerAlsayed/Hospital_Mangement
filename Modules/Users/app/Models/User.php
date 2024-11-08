@@ -15,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password', 'phone_number', 'address','national_number', 'date_of_birth', 'gender', 'role',];
 
+
     public function doctor()
     {
         return $this->hasOne(Doctor::class);
@@ -62,5 +63,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
 
 }

@@ -20,6 +20,7 @@ class DoctorResource extends JsonResource
             'specialization' => $this->specialization,
             'department' => isset($this->department->name) ? $this->department->name : null,
             'salary' => $this->salary,
+
             'shifts' => ShiftResource::collection($this->shifts),
         ];
     }
