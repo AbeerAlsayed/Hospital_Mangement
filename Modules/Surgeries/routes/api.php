@@ -22,9 +22,9 @@ Route::prefix('surgeries')->group(function () {
     Route::get('/{id}', [SurgeriesController::class, 'show']);
 
     Route::middleware(['auth:api', 'role:doctor'])->group(function () {
-        Route::post('/', [SurgeriesController::class, 'store']);
-        Route::put('/{id}', [SurgeriesController::class, 'update']);
-        Route::delete('/{id}', [SurgeriesController::class, 'destroy']);
+    Route::post('/', [SurgeriesController::class, 'store']);
+    Route::put('/{id}', [SurgeriesController::class, 'update']);
+    Route::delete('/{id}', [SurgeriesController::class, 'destroy']);
     });
 });
 

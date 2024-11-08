@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Modules\Departments\Database\Seeders\DepartmentsDatabaseSeeder;
 use Modules\Users\Database\Seeders\AdminSeeder;
+
 use Modules\Users\Database\Seeders\DoctorSeeder;
 use Modules\Users\Database\Seeders\PatientSeeder;
-use Modules\Users\Database\Seeders\UsersDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,8 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             DepartmentsDatabaseSeeder::class,
+
             DoctorSeeder::class,
             PatientSeeder::class,
+
         ]);
     }
 }

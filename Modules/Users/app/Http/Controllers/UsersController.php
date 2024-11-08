@@ -5,8 +5,6 @@ namespace Modules\Users\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Modules\Users\Http\Requests\StoreDoctorRequest;
-use Modules\Users\Http\Requests\StorePatientRequest;
 use Modules\Users\Models\Doctor;
 use Modules\Users\Models\Nurse;
 use Modules\Users\Models\Patient;
@@ -15,6 +13,8 @@ use Modules\Users\Services\UserService;
 use Modules\Users\Http\Requests\StoreUserRequest;
 use Modules\Users\Transformers\UserResource;
 use App\Services\ApiResponseService;
+use Modules\Users\Http\Requests\StoreDoctorRequest;
+use Modules\Users\Http\Requests\StorePatientRequest;
 
 class UsersController extends Controller
 {
@@ -37,6 +37,7 @@ class UsersController extends Controller
 
     public function storePatient(StorePatientRequest $request)
     {
+
         $userData = array_merge(
             $request->validated(),
             ['role' => 'patient']
