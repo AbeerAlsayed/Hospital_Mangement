@@ -14,6 +14,3 @@ use Modules\Surgeries\Http\Controllers\SurgeriesController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('surgeries', SurgeriesController::class)->names('surgeries');
-});
